@@ -23,7 +23,7 @@ RUN \
     --mount=type=cache,target=/var/cache/mirror,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     <<EOF
-  useradd -mp "" c
+  useradd -mp "" -s /bin/bash c
   mkdir -p /home/c/.cache/huggingface
   mkdir -p /tmp/offload
   chown c:c /tmp/offload

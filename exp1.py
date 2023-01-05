@@ -1,3 +1,4 @@
+import time
 import torch
 import transformers
 
@@ -39,4 +40,8 @@ modellist = [
 for m1 in modellist:
     print(m1)
     x1 = hf(m1)
+    t0 = time.time()
     print(infer(x1, "def helloworld():"))
+    t1 = time.time()
+    print("Time spent inferring: ", t1 - t0)
+

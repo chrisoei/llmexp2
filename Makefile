@@ -23,5 +23,5 @@ shell:
 clean:
 	rm -f build.log push.log timestamp.txt
 
-timestamp.txt: Dockerfile
+timestamp.txt: Dockerfile exp1.py
 	date -u +'%Y-%m-%d_%H%M%Sz' > timestamp.txt
