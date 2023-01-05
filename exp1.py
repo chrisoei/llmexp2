@@ -18,6 +18,8 @@ def infer(x, prompt1):
         inputs1, 
         do_sample=True,
         max_new_tokens=1024,
+# https://discuss.huggingface.co/t/setting-pad-token-id-to-eos-token-id-50256-for-open-end-generation/22247/3
+        pad_token_id=50256,
         temperature=0.9,
         repetition_penalty=1.2
     )
