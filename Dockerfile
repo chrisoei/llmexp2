@@ -67,7 +67,10 @@ EOF
 COPY tmux.conf /home/c/.tmux.conf
 COPY exp1.py /home/c/
 
-RUN chown -R c.c /home/c
+RUN <<EOF
+  echo "export TERM=xterm-256color" >> /home/c/.bashrc
+  chown -R c.c /home/c
+EOF
 
 EXPOSE 7860
 
