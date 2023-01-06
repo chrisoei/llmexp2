@@ -6,11 +6,14 @@ import transformers
 
 # See https://stackoverflow.com/questions/58216000/get-total-amount-of-free-gpu-memory-and-available-using-pytorch
 def cudastats():
-    return {
-        "total_memory": torch.cuda.get_device_properties(0).total_memory,
-        "reserved_memory": torch.cuda.memory_reserved(0),
-        "allocated_memory": torch.cuda.memory_allocated(0)
+    s = 1.0e9
+    r = {
+        "total_memory": torch.cuda.get_device_properties(0).total_memory / s,
+        "reserved_memory": torch.cuda.memory_reserved(0) / s,
+        "allocated_memory": torch.cuda.memory_allocated(0) / s
     }
+    r["free_memory"] = r["reserved_memory"] - r["allocated_memory"]
+    return r
 
 def hf(m1):
     return {
@@ -50,6 +53,8 @@ modellist = [
     "facebook/galactica-30b"
 ]
 
+print("CUDA: {}".format(torch.cuda.is_available()))
+print("bfloat16: {}".format(torch.cuda.is_bf16_supported()))
 for m1 in modellist:
     print(m1)
     x1 = hf(m1)
@@ -58,4 +63,5 @@ for m1 in modellist:
     print(infer(x1, "def helloworld():"))
     t1 = time.time()
     print("Time spent inferring: ", t1 - t0)
+    torch.cuda.empty_cache()
 
