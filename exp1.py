@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import json
 import time
 import torch
 import transformers
@@ -47,21 +48,35 @@ modellist = [
     "bigscience/bloomz-560m",
     "facebook/galactica-1.3b",
     "Salesforce/codegen-2B-mono",
+    "EleutherAI/gpt-j-6B",
     "Salesforce/codegen-6B-mono",
     "facebook/galactica-6.7b",
     "Salesforce/codegen-16B-mono",
+    "EleutherAI/gpt-neox-20b",
     "facebook/galactica-30b"
 ]
 
 print("CUDA: {}".format(torch.cuda.is_available()))
 print("bfloat16: {}".format(torch.cuda.is_bf16_supported()))
 for m1 in modellist:
+    j1 = {}
+    j1["model"] = m1
+    j1["bfloat16"] = torch.cuda.is_bf16_supported()
+    j1["cuda_version"] = torch.version.cuda
     print(m1)
     x1 = hf(m1)
     print(cudastats())
+    j1["total_memory"] = torch.cuda.get_device_properties(0).total_memory
+    j1["reserved_memory"] = torch.cuda.memory_reserved(0)
+    j1["allocated_memory"] = torch.cuda.memory_allocated(0)
     t0 = time.time()
-    print(infer(x1, "def helloworld():"))
+    j1["prompt"] = "def helloworld():"
+    j1["result"] = infer(x1, j1["prompt"])
+    print(j1["result"])
     t1 = time.time()
+    j1["time"] = t1 - t0
     print("Time spent inferring: ", t1 - t0)
     torch.cuda.empty_cache()
+    with open(m1 + ".json", "w") as fh1:
+        fh1.write(json.dumps(j1, indent=2))
 
