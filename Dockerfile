@@ -44,7 +44,6 @@ RUN \
   apt update -y && apt install -y \
     ack \
     git \
-    lz4 \
     python3-{dev,pip,setuptools,venv} \
     rsync \
     tmux \
