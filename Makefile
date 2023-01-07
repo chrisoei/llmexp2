@@ -1,6 +1,6 @@
 all: build.log
 
-TAG1=chrisoei/llmexp1
+TAG1=chrisoei/llmexp2
 
 build.log: timestamp.txt
 	DOCKER_BUILDKIT=1 docker build --progress=plain -t $(TAG1):`cat timestamp.txt` . 2>&1 | tee build.log
@@ -23,5 +23,5 @@ shell:
 clean:
 	rm -f build.log push.log timestamp.txt
 
-timestamp.txt: Dockerfile exp1.py
+timestamp.txt: Dockerfile exp2.py
 	date -u +'%Y-%m-%d_%H%M%Sz' > timestamp.txt

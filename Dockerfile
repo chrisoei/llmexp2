@@ -4,7 +4,7 @@
 # $Date: 2022/12/31 16:15:49 $
 # $Revision: 1.3 $
 
-FROM pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel as llmexp1
+FROM pytorch/pytorch:1.12.1-cuda11.3-cudnn8-devel as llmexp2
 
 ARG O31_UBUNTU_RELEASE=22.04
 ARG O31_UBUNTU_CODEJAME=jammy
@@ -65,7 +65,7 @@ RUN \
 EOF
 
 COPY tmux.conf /home/c/.tmux.conf
-COPY exp1.py /home/c/
+COPY exp2.py /home/c/
 
 RUN <<EOF
   echo "export TERM=xterm-256color" >> /home/c/.bashrc
