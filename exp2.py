@@ -22,7 +22,9 @@ def hf(m1):
         "model": transformers.AutoModelForCausalLM.from_pretrained(
             m1,
             device_map="auto",
-            offload_folder="/tmp/offload")
+            offload_folder="/tmp/offload",
+            torch_dtype=torch.float16
+        )
     }
 
 def infer(x, prompt1):
@@ -43,16 +45,8 @@ def infer(x, prompt1):
 
 modellist = [
     "facebook/galactica-125m",
-    "Salesforce/codegen-350M-mono",
-    "bigscience/bloom-560m",
-    "bigscience/bloomz-560m",
     "facebook/galactica-1.3b",
-    "Salesforce/codegen-2B-mono",
-    "EleutherAI/gpt-j-6B",
-    "Salesforce/codegen-6B-mono",
     "facebook/galactica-6.7b",
-    "Salesforce/codegen-16B-mono",
-    "EleutherAI/gpt-neox-20b",
     "facebook/galactica-30b"
 ]
 
@@ -70,7 +64,7 @@ for m1 in modellist:
     j1["reserved_memory"] = torch.cuda.memory_reserved(0)
     j1["allocated_memory"] = torch.cuda.memory_allocated(0)
     t0 = time.time()
-    j1["prompt"] = "def helloworld():"
+    j1["prompt"] = "Q: What are Mersenne primes?\nA:"
     j1["result"] = infer(x1, j1["prompt"])
     print(j1["result"])
     t1 = time.time()

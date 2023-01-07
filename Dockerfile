@@ -44,6 +44,7 @@ RUN \
   apt update -y && apt install -y \
     ack \
     git \
+    lz4 \
     python3-{dev,pip,setuptools,venv} \
     rsync \
     tmux \
@@ -56,6 +57,7 @@ RUN \
     bitsandbytes==0.35.4 \
     ipython \
     transformers==4.25.1 \
+    wandb==0.13.7 \
 
   $WGET1 \
     "https://www.christopheroei.com/b/7a25ad28e78ca414ccabf032a8fc8ef49b0bef0faf5ba6f3326888c610e04a16.sh" \
