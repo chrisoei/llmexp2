@@ -2,7 +2,7 @@ all: build.log
 
 TAG1=chrisoei/llmexp2
 
-build.log: timestamp.txt
+build.log: timestamp.txt nvidia-smi.log
 	DOCKER_BUILDKIT=1 docker build --progress=plain -t $(TAG1):`cat timestamp.txt` . 2>&1 | tee build.log
 	docker tag $(TAG1):`cat timestamp.txt` $(TAG1):latest
 
@@ -32,3 +32,12 @@ timestamp.txt: Dockerfile exp2.py
 
 /usr/bin/lz4:
 	sudo apt install -y lz4
+
+/usr/bin/rcs:
+	sudo apt install -y rcs
+
+nvidia-smi.log:
+	nvidia-smi 2>&1 | tee nvidia-smi.log
+
+permissions.log:
+	sudo usermod -aG docker $(USER)
