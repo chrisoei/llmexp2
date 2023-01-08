@@ -16,7 +16,7 @@ shell: huggingface_cache.log
 	docker run \
 		--gpus all \
 		-v huggingface_cache:/home/c/.cache/huggingface \
-		-v /home/ubuntu/output:/home/c/output \
+		-v $(HOME)/output:/home/c/output \
 		-it \
 		$(TAG1):`cat timestamp.txt` \
 		/bin/bash

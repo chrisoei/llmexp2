@@ -71,6 +71,6 @@ for m1 in modellist:
     j1["time"] = t1 - t0
     print("Time spent inferring: ", t1 - t0)
     torch.cuda.empty_cache()
-    with open(m1 + ".json", "w") as fh1:
+    with open(ENV["HOME"] + "/output/" + m1 + ".json", "w") as fh1:
         fh1.write(json.dumps(j1, indent=2))
 
