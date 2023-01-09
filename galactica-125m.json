@@ -1,0 +1,13 @@
+{
+	"do_eval": true,
+	"do_train": true,
+	"fp16": true,
+	"learning_rate": 5e-06,
+	"model_name_or_path": "facebook/galactica-125m",
+	"output_dir": "output",
+	"overwrite_cache": true,
+	"save_total_limit": 2,
+	"seed": 43,
+	"train_file": "train.csv",
+	"validation_file": "validation.csv"
+}

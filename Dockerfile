@@ -54,7 +54,12 @@ RUN \
   pip3 install \
     accelerate==0.15.0 \
     bitsandbytes==0.35.4 \
+    datasets==2.8.0 \
+    evaluate==0.4.0 \
     ipython \
+    protobuf==4.21.12 \
+    scikit-learn==1.0.2 \
+    sentencepiece==0.1.97 \
     transformers==4.25.1 \
     wandb==0.13.7 \
 
@@ -67,12 +72,18 @@ EOF
 
 COPY tmux.conf /home/c/.tmux.conf
 COPY exp2.py /home/c/
+COPY run_clm.py /home/c/
+COPY galactica-125m.json /home/c/
+COPY train.csv /home/c/
+COPY validation.csv /home/c/
+COPY entrypoint.sh /home/c/
 
 RUN <<EOF
   echo "export TERM=xterm-256color" >> /home/c/.bashrc
   chown -R c.c /home/c
+  chmod +x /home/c/entrypoint.sh
 EOF
 
-EXPOSE 7860
+CMD su -l c -c /home/c/entrypoint.sh
 
 # vim: set et ff=unix ft=dockerfile nocp sts=2 sw=2 ts=2:

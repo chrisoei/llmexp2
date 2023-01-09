@@ -21,13 +21,21 @@ shell: huggingface_cache.log
 		$(TAG1):`cat timestamp.txt` \
 		/bin/bash
 
+run: huggingface_cache.log
+	docker run \
+		--gpus all \
+		-v huggingface_cache:/home/c/.cache/huggingface \
+		-v $(HOME)/output:/home/c/output \
+		-it \
+		$(TAG1):`cat timestamp.txt`
+
 clean:
 	rm -f build.log push.log timestamp.txt
 
 huggingface_cache.log:
 	docker volume create huggingface_cache 2>&1 | tee huggingface_cache.log
 
-timestamp.txt: Dockerfile exp2.py
+timestamp.txt: Dockerfile exp2.py galactica-125m.json run_clm.py
 	date -u +'%Y-%m-%d_%H%M%Sz' > timestamp.txt
 
 /usr/bin/lz4:
