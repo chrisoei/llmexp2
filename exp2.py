@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 import json
 import time
 import torch
@@ -44,10 +45,8 @@ def infer(x, prompt1):
     return output1
 
 modellist = [
-    "facebook/galactica-125m",
-    "facebook/galactica-1.3b",
-    "facebook/galactica-6.7b",
-    "facebook/galactica-30b"
+    "/home/c/output/llmexp2",
+    "facebook/galactica-125m"
 ]
 
 print("CUDA: {}".format(torch.cuda.is_available()))
@@ -64,13 +63,11 @@ for m1 in modellist:
     j1["reserved_memory"] = torch.cuda.memory_reserved(0)
     j1["allocated_memory"] = torch.cuda.memory_allocated(0)
     t0 = time.time()
-    j1["prompt"] = "Q: What are Mersenne primes?\nA:"
+    j1["prompt"] = "hope:"
     j1["result"] = infer(x1, j1["prompt"])
     print(j1["result"])
     t1 = time.time()
     j1["time"] = t1 - t0
     print("Time spent inferring: ", t1 - t0)
     torch.cuda.empty_cache()
-    with open(ENV["HOME"] + "/output/" + m1 + ".json", "w") as fh1:
-        fh1.write(json.dumps(j1, indent=2))
 
